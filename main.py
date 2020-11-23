@@ -1,5 +1,4 @@
 from graphics import *
-import queue
 import pprint
 import time
 import sys
@@ -8,8 +7,6 @@ pp = pprint.PrettyPrinter(indent=4)
 
 end_puzzle = [[0, 2, 1, 3],[4, 6, 5, 7], [8, 9, 10, 11],[12, 13, 14, 15]]
 
-open_q = queue.Queue()
-closed_q = queue.Queue()
 
 def puzz_astar(start, end):
     """
@@ -18,7 +15,7 @@ def puzz_astar(start, end):
     start = str(start)
     end = str(end)
     heuristic_function = heuristic_1
-    if sys.argv == 'h2':
+    if sys.argv[1] == 'h2':
         heuristic_function = heuristic_2
     front = [[heuristic_function(start), start]]
     expanded = []
@@ -36,7 +33,7 @@ def puzz_astar(start, end):
         if endnode in expanded: continue
         for k in moves(endnode):
             if k in expanded: continue
-            newpath = [path[0] + heuristic_2(k) - heuristic_2(endnode)] + path[1:] + [k]
+            newpath = [path[0] + heuristic_function(k) - heuristic_function(endnode)] + path[1:] + [k]
             front.append(newpath)
             expanded.append(endnode)
         expanded_nodes += 1
@@ -156,6 +153,5 @@ def main():
     print("Press <ENTER> to quit.")
     input()
     window.close()
-
 
 main()
