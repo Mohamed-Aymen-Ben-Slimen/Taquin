@@ -35,9 +35,9 @@ def puzz_astar(start, end):
             if k in expanded: continue
             newpath = [path[0] + heuristic_function(k) - heuristic_function(endnode)] + path[1:] + [k]
             front.append(newpath)
-            expanded.append(endnode)
+        expanded.append(endnode)
         expanded_nodes += 1
-        if (expanded_nodes > 3000):
+        if (expanded_nodes > 100000):
             return 0
     print("Expanded nodes:", expanded_nodes)
     pp.pprint(path)
@@ -49,13 +49,11 @@ def heuristic_1(puzz):
     Calcule le nombre des cases mal placées
     """
     misplaced = 0
-    compare = 0
     m = eval(puzz)
     for i in range(4):
         for j in range(4):
-            if m[i][j] != compare:
+            if m[i][j] != end_puzzle[i][j]:
                 misplaced += 1
-            compare += 1
     return misplaced
 
 def heuristic_2(puzz):
@@ -109,9 +107,9 @@ def moves(mat):
     j = m[i].index(0)  # blank space (zero)
 
     if i > 0:
-        m[i][j], m[i - 1][j] = m[i - 1][j], m[i][j];  # move up
+        m[i][j], m[i - 1][j] = m[i - 1][j], m[i][j]  # move up
         output.append(str(m))
-        m[i][j], m[i - 1][j] = m[i - 1][j], m[i][j];
+        m[i][j], m[i - 1][j] = m[i - 1][j], m[i][j]
 
     if i < 3:
         m[i][j], m[i + 1][j] = m[i + 1][j], m[i][j]  # move down
